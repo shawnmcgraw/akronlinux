@@ -1,4 +1,4 @@
-# ALUG - Linux Volume Management (LVM) - March 2024
+# ALUG - Logical Volume Manager (LVM) - March 2024
 This presentation is scheduled for March 7th, 2024.
 
 ### To Follow Along:
