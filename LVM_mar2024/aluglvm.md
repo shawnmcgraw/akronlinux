@@ -1,47 +1,72 @@
-%title: Logical Volume Manager (LVM) - ALUG
-%author: Shawn McGraw
-%date: 2024-03-07
+# Logical Volume Manager - ALUG, March 2024
 
--> # LVM <-
-
---------------------------------------------
-
--> # What is LVM? <-
-
-From Wikipedia:
-
-Logical Volume Manager (LVM) is a device mapper framework that provides logical volume management for the Linux kernel.
-
---------------------------------------------
-
--> # Why use LVM? <-
-
-The main advantage of LVM is how easy it is to resize a logical volume or volume group. It abstracts away all the ugly parts (partitions, raw disks) and leaves us with a central storage pool to work with.
-
-If you've ever experienced the horror of partition resizing, you'd wanna use LVM.
-
-Pros:
-
-- LVM gives you more flexibility than just using normal hard drive partitions
-- Have logical volumes stretched over several disks (RAID, mirroring, striping which offer advantages such as additional resilliance and performance)
-- Create small logical volumes and resize them "dynamically" as they get filled up
-- Resize logical volumes regardless of their order on disk. It does not depend on the position of the LV within VG, there is no need to ensure surrounding available space
-- Resize/create/delete logical and physical volumes online. File systems on them still need to be resized, but some (such as Ext4 and Btrfs) support online resizing
-- Online/live migration of LV (or segments) being used by services to different disks without having to restart services
-- Snapshots allow you to backup a frozen copy of the file system, while keeping service downtime to a minimum and easily merge the snapshot into the original volume later
-- Support for unlocking separate volumes without having to enter a key multiple times on boot (LUKS)
-- Built-in support for caching of frequently used data (lvmcache)
-
-Cons:
-
-- Additional steps in setting up the system (may require changes to mkinitcpio configuration), more complicated. Requires (multiple) daemons to constantly run.
-
---------------------------------------------
-
--> # Basic components of LVM <-
-
-- Physical Volumes (PV)
-- Volume Groups (VG)
-- Logical Volumes (LV)
+Intall LVM2 package: `dnf install lvm2`
 
 
+### Warning: These steps are destructive! Make sure you're on a VM, not your PC.
+
+-----------
+## Working with Physical Volumes (PV)
+Common commands when working with PVs:
+- `pvscan`
+- `pvs`
+- `pvdisplay`
+- `pvremove`
+
+Create Physical Volume on a disk without first creating a partition: `pvcreate /dev/sdb`
+
+Create first of two partitions of equal size on a disk: `fdisk /dev/sdc`
+
+1. Create GPT partition table: `g` 
+2. Create new partition: `n`
+3. Partition number: leave blank for default value
+4. First sector: leave blank for default value
+5. Last sector: `+2.5G`
+6. Write to the disk: `w`
+
+Create second partition `fdisk /dev/sdc`
+1. Create new partition: `n`
+2. Partition number: leave blank
+3. First sector: leave blank
+4. Last sector: leave blank
+5. Write to the disk: `w`
+
+Create two physical volumes on /dev/sdc at once:
+```
+[root@aluglvm ~]# pvcreate /dev/sdc1 /dev/sdc2
+  Physical volume "/dev/sdc1" successfully created.
+  Physical volume "/dev/sdc2" successfully created.
+```
+Verify the new PVs: `pvs`
+```
+[root@aluglvm ~]# pvs
+  PV         VG Fmt  Attr PSize  PFree 
+  /dev/sdb      lvm2 ---   5.00g  5.00g
+  /dev/sdc1     lvm2 ---   2.50g  2.50g
+  /dev/sdc2     lvm2 ---  <2.50g <2.50g
+```
+Remove a PV:
+```
+[root@aluglvm ~]# pvremove /dev/sdc2
+  Labels on physical volume "/dev/sdc2" successfully wiped.
+```
+Check it:
+```
+[root@aluglvm ~]# pvs
+  PV         VG Fmt  Attr PSize PFree
+  /dev/sdb      lvm2 ---  5.00g 5.00g
+  /dev/sdc1     lvm2 ---  2.50g 2.50g
+```
+## Working with Volume Groups (VG)
+Common commands when working with VGs:
+- `vgs`
+- `vgcreate`
+- `vgrename`
+- `vgscan`
+- `vgdisplay`
+
+Create new VG spanning two PVs:
+```
+[root@aluglvm ~]# vgcreate vg00 /dev/sdb /dev/sdc1
+  Volume group "vg00" successfully created
+```
