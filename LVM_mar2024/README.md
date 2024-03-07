@@ -9,7 +9,12 @@ This presentation is scheduled for March 7th, 2024.
 5. Make sure the VM is running `vagrant status` should show `running (virtualbox)`
 6. Access the VM: `vagrant ssh`
 
+### Cleaning up:
+1. `vagrant halt` to shutdonw the VM
+2. `vagrant destroy` to delete the VM and created drives
+
 ### Links to more on LVM:
 - [Arch Wiki](https://wiki.archlinux.org/title/LVM)
 - [Red Hat](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/configuring_and_managing_logical_volumes/index)
 - [Linux Handbook](https://linuxhandbook.com/lvm-guide/)
+- [Wikipedia](https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux))
