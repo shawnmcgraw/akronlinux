@@ -4,7 +4,7 @@ This presentation is scheduled for March 7th, 2024.
 ### To Follow Along:
 1. [Install Vagrant](https://developer.hashicorp.com/vagrant/install)
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads)
-3. Download or copy the [Vagrantfile](https://github.com/shawnmcgraw/akronlinux/blob/main/LVM_mar2024/Vagrantfile) in this directory
+3. Download or copy the [Vagrantfile](https://github.com/shawnmcgraw/akronlinux/blob/main/LVM_mar2024/Vagrantfile)
 4. To start the VM: `vagrant up`
 5. Access the VM: `vagrant ssh`
 
