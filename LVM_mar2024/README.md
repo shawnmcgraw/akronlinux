@@ -6,7 +6,8 @@ This presentation is scheduled for March 7th, 2024.
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads)
 3. Download or copy the [Vagrantfile](https://github.com/shawnmcgraw/akronlinux/blob/main/LVM_mar2024/Vagrantfile)
 4. To start the VM: `vagrant up`
-5. Access the VM: `vagrant ssh`
+5. Make sure the VM is running `vagrant status` should show `running (virtualbox)`
+6. Access the VM: `vagrant ssh`
 
 ### Links to more on LVM:
 - [Arch Wiki](https://wiki.archlinux.org/title/LVM)
