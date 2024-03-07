@@ -5,9 +5,10 @@ This presentation is scheduled for March 7th, 2024.
 1. [Install Vagrant](https://developer.hashicorp.com/vagrant/install)
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Linux_Downloads)
 3. Download or copy the [Vagrantfile](https://github.com/shawnmcgraw/akronlinux/blob/main/LVM_mar2024/Vagrantfile)
-4. To start the VM: `vagrant up`
-5. Make sure the VM is running `vagrant status` should show `running (virtualbox)`
-6. Access the VM: `vagrant ssh`
+4. Set environment variable: `export VAGRANT_EXPERIMENTAL=disks`
+5. To start the VM: `vagrant up`
+6. Make sure the VM is running `vagrant status` should show `running (virtualbox)`
+7. Access the VM: `vagrant ssh`
 
 ### Cleaning up:
 1. `vagrant halt` to shutdonw the VM
